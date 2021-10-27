@@ -19,4 +19,21 @@ describe("Restaurant", () => {
     });
     expect(restaurant.id).toBe(1);
   });
+
+  test("can read a restaurant", async () => {
+    const restaurant = await Restaurant.findOne({ where: { id: 1 } });
+    expect(restaurant.name).toBe("Ronalds");
+  });
+
+  test("can update a restaurant", async () => {
+    await Restaurant.update({ name: "Peters" }, { where: { name: "Ronalds" } });
+    const restaurant = await Restaurant.findOne({ where: { id: 1 } });
+    expect(restaurant.name).toBe("Peters");
+  });
+
+  test("can delete a restaurant", async () => {
+    await Restaurant.destroy({ where: { id: 1 } });
+    const restaurant = await Restaurant.findOne({ where: { id: 1 } });
+    expect(restaurant).toBeNull();
+  });
 });
